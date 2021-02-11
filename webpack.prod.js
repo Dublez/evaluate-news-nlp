@@ -1,6 +1,9 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebPackPlugin = require("html-webpack-plugin")
+const StyleLoader = require('style-loader');
+const CSSLoader = require('css-loader');
+const SassLoader = require('sass-loader');
 
 module.exports = {
     entry: './src/client/index.js',
@@ -11,6 +14,10 @@ module.exports = {
                 test: '/\.js$/',
                 exclude: /node_modules/,
                 loader: "babel-loader"
+            },
+            {
+                test: /\.scss$/,
+                use: [ 'style-loader', 'css-loader', 'sass-loader' ]
             }
         ]
     },
