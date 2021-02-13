@@ -1,4 +1,4 @@
-# Project Title
+# Evaluate News with the Natural Language Processing Tool
 
 This project was built as part of Udacity Front-End Nanodegree in order to have a hands-on experience of the author in the following technologies:
 - Setting up Webpack
