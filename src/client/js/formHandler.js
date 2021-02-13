@@ -1,4 +1,4 @@
-function handleSubmit(event) {
+async function handleSubmit(event) {
     event.preventDefault();
 
     let formText = getFormText();
@@ -7,11 +7,14 @@ function handleSubmit(event) {
 
     console.log("::: Form Submitted :::");
 
-    postServerData('http://localhost:8080/test', formText)
-    // 
-    // .then(res => console.log(res))
-    // .then(res => res.json())
-    .then((res) => renderResult(res));
+    try{
+        postServerData('http://localhost:8080/test', formText)
+            .then((res) => renderResult(res));
+        return true;
+    } catch{
+        console.log("error during postServerData");
+        return false;
+    }
         
 }
 
@@ -22,6 +25,7 @@ function getFormText(){
 async function postServerData (url='', text) {
     // 
     const body = JSON.stringify(text);
+    // 
     console.log(body);
     const res = await fetch(url, {
         method: 'POST',
@@ -43,4 +47,4 @@ function renderResult(res){
     return document.getElementById('results').innerHTML = "Confidence: "+ res.json.confidence;
 }
 
-export { handleSubmit }
+export { handleSubmit, getFormText, postServerData, renderResult }
