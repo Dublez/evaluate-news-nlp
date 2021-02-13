@@ -1,6 +1,16 @@
 # Project Title
 
-This project provides opportunity to perform natural language processing on text articles. The project utilizes [MeaningCloud](https://www.meaningcloud.com/) API to analyze the text.
+This project was built as part of Udacity Front-End Nanodegree in order to have a hands-on experience of the author in the following technologies:
+- Setting up Webpack
+- Sass styles
+- Webpack Loaders and Plugins
+- Creating layouts and page design
+- Service workers
+- Using APIs and creating requests to external urls
+
+On top of that, this project introduces the topic of Natural Language Processing. NLPs leverage machine learning and deep learning create a program that can interpret natural human speech. Systems like Alexa, Google Assistant, and many voice interaction programs are well known to us, but understanding human speech is an incredibly difficult task and requires a lot of resources to achieve. 
+This project utilizes fairly new API called Meaning Cloud to determine various attributes of an article or blog post. Please see [MeaningCloud](https://www.meaningcloud.com/) API for more information.
+
 
 ## Getting Started
 
@@ -41,16 +51,3 @@ This project is built with
 ## License
 
 This project is licensed under the MIT License
-
-## Acknowledgments
-
-* This project was built as part of Udacity Front-End Nanodegree in order to have a hands-on experience of the author in the following technologies:
-- Setting up Webpack
-- Sass styles
-- Webpack Loaders and Plugins
-- Creating layouts and page design
-- Service workers
-- Using APIs and creating requests to external urls
-
-On top of that, this project introduces the topic of Natural Language Processing. NLPs leverage machine learning and deep learning create a program that can interpret natural human speech. Systems like Alexa, Google Assistant, and many voice interaction programs are well known to us, but understanding human speech is an incredibly difficult task and requires a lot of resources to achieve. 
-This project utilizes fairly new API called Meaning Cloud to determine various attributes of an article or blog post.
