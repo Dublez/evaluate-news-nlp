@@ -32,6 +32,7 @@ npm run start
 This project is built with 
 * [NPM](https://www.npmjs.com/) - Dependency Management
 * [Webpack](https://webpack.js.org/) - The build tool
+* [Jest](https://jestjs.io) - Testing tool
 
 ## Authors
 
