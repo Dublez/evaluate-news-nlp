@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const StyleLoader = require('style-loader');
 const CSSLoader = require('css-loader');
 const SassLoader = require('sass-loader'); 
+const FileLoader = require('file-loader');
 
 module.exports = {
     entry: './src/client/index.js',
@@ -25,7 +26,14 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [ 'style-loader', 'css-loader', 'sass-loader' ]
-            }
+            },
+            {
+                test: /\.(svg|png|jpe?g|gif)$/i,
+                loader: 'file-loader',
+                options: {
+                    name: '/images/[name].[ext]'
+                }
+            },
         ]
     },
     plugins: [

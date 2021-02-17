@@ -8,30 +8,63 @@
     <body>
 
         <header>
-            <div class="">
-                Logo
+            <div class="logo">
+                <img src="images/logo.svg" alt="Texterra logo" width="320" height="130">
             </div>
-            <div class="">
-                navigation
+            <div class="description">
+                Unlock the power of AI to perform contextual analysis of texts.
             </div>
         </header>
 
         <main>
-            <section>
-                <form class="" onsubmit="return Client.handleSubmit(event)">
-                    <input id="name" type="text" name="input" value="" onblur="onBlur()" placeholder="Name">
-                    <input type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">
+            <section id="submitSection">
+                <form class="submitForm" onsubmit="return Client.handleSubmit(event)">
+                    <textarea id="submitText" placeholder="please insert text here" name="input" onblur="onBlur()"></textarea>
+                    <input id="submitButton" type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">
                 </form>
             </section>
 
-            <section>
-                <strong>Form Results:</strong>
-                <div id="results"></div>
+            <section id="resultsSection">
+                <div id="result">
+                    <div class="text">
+                        <dl>
+                            <dt><strong>17 February 2021 on 12:33</strong></dt>
+                            <dd>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</dd>
+                        </dl>
+                    </div>
+                    <div class="params">
+                        <dl class="language">
+                            <label><strong>Language:</strong>
+                                <dd class="languageVal">English</dd>
+                            </label>
+                        </dl>
+                        <dl class="confidence">
+                            <label><strong>Confidence:</strong>
+                                <dd class="confidenceVal confidenceGreen">100%</dd>
+                            </label>
+                        </dl>
+                        <dl class="agreement">
+                            <label><strong>Agreement:</strong>
+                                <dd class="agreementVal">Agreement</dd>
+                            </label>
+                        </dl>
+                        <dl class="subjectivity">
+                            <label><strong>Subjectivity:</strong>
+                                <dd class="subjectivityVal">Objective</dd>
+                            </label>
+                        </dl>
+                        <dl class="irony">
+                            <label><strong>Irony:</strong>
+                                <dd class="ironyVal">Nonironic</dd>
+                            </label>
+                        </dl>
+                    </div>
+                </div>
             </section>
         </main>
 
         <footer>
-            <p>This is a footer</p>
+            <p>Designed by <a href="https://github.com/Dublez">Dublez</a></p>
         </footer>
 
         <script>

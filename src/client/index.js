@@ -4,12 +4,15 @@ import './styles/base.scss';
 import './styles/footer.scss';
 import './styles/form.scss';
 import './styles/header.scss';
-import './styles/resets.scss';
+import './styles/results.scss';
+// import './styles/resets.scss';
+// import './images/logo.svg';
+function importAll(r) {
+    return r.keys().map(r);
+  }
+const images = importAll(require.context('./images/', false, /\.(png|gif|jpe?g|svg)$/));
 
 console.log(checkForName);
-
-alert("I EXIST")
-console.log("CHANGE!!");
 
 export {
     checkForName,

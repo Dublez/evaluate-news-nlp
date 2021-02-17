@@ -1,0 +1,50 @@
+#result{
+    display: block;
+    border: 1px solid #545454;
+    border-radius: 10px;
+    padding: 25px;
+    min-height: 100px;
+    // box-shadow:0 4px 10px 0 rgba(0,0,0,0.2);
+    background-color: white;
+    font-family: "Roboto", sans-serif;
+}
+
+.text {
+    margin-bottom: 50px;
+    font-family: "Roboto", sans-serif;
+}
+
+.text dl dt {
+    margin-bottom: 30px;
+}
+
+.params {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 30px;
+}
+
+dd{
+    display: inline;
+    margin-left: 0px;
+    margin-right: 30px;
+}
+
+dl{
+    display: inline;
+    overflow: hidden;
+    padding: 0;
+    margin-top: 0px;
+}
+
+.confidenceGreen{
+    background-color: greenyellow;
+}
+
+.confidenceYellow{
+    background-color: yellow;
+}
+
+.confidenceRed{
+    background-color: red;
+}

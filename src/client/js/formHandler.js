@@ -19,7 +19,7 @@ async function handleSubmit(event) {
 }
 
 function getFormText(){
-    return document.getElementById('name').value;
+    return document.getElementById('submitText').value;
 }
 
 async function postServerData (url='', text) {
@@ -44,7 +44,12 @@ async function postServerData (url='', text) {
 }
 
 function renderResult(res){
-    return document.getElementById('results').innerHTML = "Confidence: "+ res.json.confidence;
+    const results = document.getElementById('results');
+    const newElement = document.createElement("div");
+    newElement.setAttribute('class', "text");
+    newElement.innerHTML = JSON.stringify(res);
+    results.appendChild(newElement);
 }
+
 
 export { handleSubmit, getFormText, postServerData, renderResult }

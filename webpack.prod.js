@@ -8,6 +8,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const {GenerateSW} = require('workbox-webpack-plugin');
+const FileLoader = require('file-loader');
 
 module.exports = {
     entry: './src/client/index.js',
@@ -26,13 +27,20 @@ module.exports = {
                 exclude: /node_modules/,
                 loader: "babel-loader"
             },
-            {
-                test: /\.scss$/,
-                use: [ 'style-loader', 'css-loader', 'sass-loader' ]
-            },
+            // {
+            //     test: /\.scss$/,
+            //     use: [ 'style-loader', 'css-loader', 'sass-loader' ]
+            // },
             {
                 test: /\.scss$/,
                 use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
+            },
+            {
+                test: /\.(svg|png|jpe?g|gif)$/i,
+                loader: 'file-loader',
+                options: {
+                    name: '/images/[name].[ext]'
+                }
             },
         ]
     },
