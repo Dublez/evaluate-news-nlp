@@ -9,7 +9,11 @@ async function handleSubmit(event) {
 
     try{
         postServerData('http://localhost:8080/test', formText)
-            .then((res) => renderResult(res));
+            .then((res) => {
+                // 
+                console.log(JSON.stringify(res));
+                renderResult(res);
+            });
         return true;
     } catch{
         console.log("error during postServerData");
@@ -44,12 +48,89 @@ async function postServerData (url='', text) {
 }
 
 function renderResult(res){
-    const results = document.getElementById('results');
-    const newElement = document.createElement("div");
-    newElement.setAttribute('class', "text");
-    newElement.innerHTML = JSON.stringify(res);
-    results.appendChild(newElement);
+    const resultsSection = document.getElementById('resultsSection');
+    resultsSection.innerHTML = "";
+    createResultsSection(res, resultsSection);
 }
 
+function createResultsSection(jsonString, resultsSection){
+    let length = jsonString.json.length;
+    for(let i = 0; i < length; i++){
+        let result = document.createElement('div');
+        result.className = 'result';
+        let textSection = createTextSection(jsonString.json[i]);
+        result.appendChild(textSection);
+        let paramsSection = createParamsSection(jsonString.json[i]);
+        result.appendChild(paramsSection);
+        resultsSection.appendChild(result);
+    }
+}
 
-export { handleSubmit, getFormText, postServerData, renderResult }
+function createTextSection(jsonObject){
+    let date = jsonObject.date;
+    let text = jsonObject.text;
+    const textElement = document.createElement('div');
+    textElement.className = 'text';
+    const tdl = document.createElement('dl');
+    const tdt = document.createElement('dt');
+    const sdt = document.createElement('strong');
+    sdt.innerHTML = date;
+    tdt.appendChild(sdt);
+    tdl.appendChild(tdt);
+    const tdd = document.createElement('dd');
+    tdd.innerHTML = text;
+    tdl.appendChild(tdd);
+    textElement.appendChild(tdl);
+
+    return textElement;
+}
+
+function createParamsSection(jsonObject){
+    let language = jsonObject.language;
+    let confidence = jsonObject.confidence;
+    let agreement = jsonObject.agreement;
+    let subjectivity = jsonObject.subjectivity;
+    let irony = jsonObject.irony;
+
+    const paramsElement = document.createElement('div');
+    paramsElement.className = 'params';
+    paramsElement.appendChild(createDl('language', 'Language:', 'languageVal', language));
+    const confidenceChild = createDl('confidence', 'Confidence:', 'confidenceVal', confidence+'%');
+    paramsElement.appendChild(confidenceChild);
+    markConfidenceColor(confidenceChild, confidence);
+    paramsElement.appendChild(createDl('agreement', 'Agreement:', 'agreementVal', agreement));
+    paramsElement.appendChild(createDl('subjectivity', 'Subjectivity:', 'subjectivityVal', subjectivity));
+    paramsElement.appendChild(createDl('irony', 'Irony:', 'IronyVal', irony));
+    return paramsElement;
+
+}
+
+function createDl(mainTagClassName, description, subTagClassName, param){
+    const tdl = document.createElement('dl');
+    tdl.className = mainTagClassName;
+    const tl = document.createElement('label');
+    tdl.appendChild(tl);
+    const ts = document.createElement('strong');
+    ts.innerHTML = description;
+    tl.appendChild(ts);
+    const dd = document.createElement('dd');
+    dd.className = subTagClassName;
+    dd.innerHTML = param;
+    tl.appendChild(dd);
+    return tdl;
+}
+
+function markConfidenceColor(element, confidenceLevel){
+    const el = element.querySelector('.confidenceVal');
+    if(confidenceLevel >= 80){
+        el.classList.add('confidenceGreen');
+    } else if(confidenceLevel >= 50 && confidenceLevel < 80){
+        el.classList.add('confidenceYellow');
+    } else{
+        el.classList.add('confidenceRed');
+    }
+
+    return el;
+}
+
+export { handleSubmit, getFormText, postServerData, renderResult, createResultsSection, createTextSection, createParamsSection, createDl }
