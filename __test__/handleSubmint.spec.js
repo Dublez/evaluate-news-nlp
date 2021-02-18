@@ -155,26 +155,21 @@ describe("Testing the submit functionality", () => {
         let createTextSection2 = jest.fn(() => {
             createTextSection(
             {
-                "json":
-                [
-                    {"date":"18th February 2021 on 4:24:48 pm",
-                    "text":"Hello",
-                    "language":"English",
-                    "confidence":"100",
-                    "agreement":"AGREEMENT",
-                    "subjectivity":"OBJECTIVE",
-                    "irony":"NONIRONIC"}
-                ]
+                "date":"18th February 2021 on 4:24:48 pm",
+                "text":"Hello",
+                "language":"English",
+                "confidence":"100",
+                "agreement":"AGREEMENT",
+                "subjectivity":"OBJECTIVE",
+                "irony":"NONIRONIC"
             },
-            document.querySelector('#resultsSection .result')
+                document.querySelector('#resultsSection .result')
             )
         });
         createTextSection2();
         expect(document.querySelector('.text')).toBeDefined();
         expect(document.querySelector('.text dl dd')).toBeDefined();
-        // 
-        console.log(document.querySelector('.text dl dd'));
-        expect(document.getElementById('resultsSection').querySelector('.text dl dd').innerHTML).toEqual("Hello");
+        expect(document.querySelector('.text dl dd').innerHTML).toEqual("Hello");
     })
 
     test('Testing the createParamsSection() function', () => {
@@ -191,27 +186,24 @@ describe("Testing the submit functionality", () => {
 
         let createParamsSection2 = jest.fn(() => {
             createParamsSection(
-            {
-            "json":
-                [
-                    {"date":"18th February 2021 on 4:24:48 pm",
+                {
+                    "date":"18th February 2021 on 4:24:48 pm",
                     "text":"Hello",
                     "language":"English",
                     "confidence":"100",
                     "agreement":"AGREEMENT",
                     "subjectivity":"OBJECTIVE",
-                    "irony":"NONIRONIC"}
-                ]
-            },
-            document.querySelector('#resultsSection .result')
+                    "irony":"NONIRONIC"
+                },
+                document.querySelector('#resultsSection .result')
             )
         });
         createParamsSection2();
-        expect(document.getElementById('resultsSection').querySelector('.params')).toBeDefined();
-        expect(document.querySelector('.resultsSection').querySelector('.languageVal').innerHTML).toEqual("English");
-        expect(document.getElementById('resultsSection').querySelector('.confidenceVal').innerHTML).toEqual("100%");
-        expect(document.getElementById('resultsSection').querySelector('.agreementVal').innerHTML).toEqual("AGREEMENT");
-        expect(document.getElementById('resultsSection').querySelector('.subjectivityVal').innerHTML).toEqual("OBJECTIVE");
-        expect(document.getElementById('resultsSection').querySelector('.IronyVal').innerHTML).toEqual("NONIRONIC");
+        expect(document.querySelector('.params')).toBeDefined();
+        expect(document.querySelector('.languageVal').innerHTML).toEqual("English");
+        expect(document.querySelector('.confidenceVal').innerHTML).toEqual("100%");
+        expect(document.querySelector('.agreementVal').innerHTML).toEqual("AGREEMENT");
+        expect(document.querySelector('.subjectivityVal').innerHTML).toEqual("OBJECTIVE");
+        expect(document.querySelector('.IronyVal').innerHTML).toEqual("NONIRONIC");
     })
 })
