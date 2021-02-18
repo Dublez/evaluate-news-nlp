@@ -1,6 +1,5 @@
 import { handleSubmit, getFormText, postServerData, renderResult, createResultsSection, createTextSection, createParamsSection } from '../src/client/js/formHandler';
 import 'regenerator-runtime/runtime';
-// const fetch = require("node-fetch");
 
 
 // Describe function has two arguments: a string description and a test suite as a callback function.
@@ -150,44 +149,11 @@ describe("Testing the submit functionality", () => {
             '</form>'+
         '</section>'+
         '<section id="resultsSection">'+
+            '<div class="result"></div>'+
         '</section>';
 
-        let textSection = createTextSection(
-        {
-            "json":
-            [
-                {"date":"18th February 2021 on 4:24:48 pm",
-                "text":"Hello",
-                "language":"English",
-                "confidence":"100",
-                "agreement":"AGREEMENT",
-                "subjectivity":"OBJECTIVE",
-                "irony":"NONIRONIC"}
-            ]
-        });
-        const resultElement = document.createElement('div');
-        resultElement.classList.add('result');
-        document.querySelector('#resultsSection').appendChild(resultElement);
-        resultElement.appendChild(textSection);
-        console.log(resultElement);
-        // expect(textSection.querySelector('.text')).toBeDefined();
-        // expect(textSection.querySelector('.text dl dd')).toBeDefined();
-        // expect(textSection.querySelector('.text dl dd').innerHTML).toEqual("Hello");
-    })
-
-    test('Testing the createParamsSection() function', () => {
-        document.body.innerHTML =
-        '<section id="submitSection">'+
-            '<form class="submitForm" onsubmit="return Client.handleSubmit(event)">'+
-                '<textarea id="submitText" placeholder="please insert text here" name="input" onblur="onBlur()"></textarea>'+
-                '<input id="submitButton" type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
-            '</form>'+
-        '</section>'+
-        '<section id="resultsSection">'+
-        '</section>';
-
-        let createParamsSection2 = jest.fn(() => {
-            createParamsSection(
+        let createTextSection2 = jest.fn(() => {
+            createTextSection(
             {
                 "json":
                 [
@@ -199,13 +165,50 @@ describe("Testing the submit functionality", () => {
                     "subjectivity":"OBJECTIVE",
                     "irony":"NONIRONIC"}
                 ]
-            });
+            },
+            document.querySelector('#resultsSection .result')
+            )
         });
-        let paramsSection = document.createElement(createParamsSection2());
-        document.getElementById('resultsSection').appendChild(paramsSection);
-        expect(document.getElementById('resultsSection').querySelector('.result')).toBeDefined();
+        createTextSection2();
+        expect(document.querySelector('.text')).toBeDefined();
+        expect(document.querySelector('.text dl dd')).toBeDefined();
+        // 
+        console.log(document.querySelector('.text dl dd'));
+        expect(document.getElementById('resultsSection').querySelector('.text dl dd').innerHTML).toEqual("Hello");
+    })
+
+    test('Testing the createParamsSection() function', () => {
+        document.body.innerHTML =
+        '<section id="submitSection">'+
+            '<form class="submitForm" onsubmit="return Client.handleSubmit(event)">'+
+                '<textarea id="submitText" placeholder="please insert text here" name="input" onblur="onBlur()"></textarea>'+
+                '<input id="submitButton" type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
+            '</form>'+
+        '</section>'+
+        '<section id="resultsSection">'+
+            '<div class="result"></div>'+
+        '</section>';
+
+        let createParamsSection2 = jest.fn(() => {
+            createParamsSection(
+            {
+            "json":
+                [
+                    {"date":"18th February 2021 on 4:24:48 pm",
+                    "text":"Hello",
+                    "language":"English",
+                    "confidence":"100",
+                    "agreement":"AGREEMENT",
+                    "subjectivity":"OBJECTIVE",
+                    "irony":"NONIRONIC"}
+                ]
+            },
+            document.querySelector('#resultsSection .result')
+            )
+        });
+        createParamsSection2();
         expect(document.getElementById('resultsSection').querySelector('.params')).toBeDefined();
-        expect(document.getElementById('resultsSection').querySelector('.languageVal').innerHTML).toEqual("English");
+        expect(document.querySelector('.resultsSection').querySelector('.languageVal').innerHTML).toEqual("English");
         expect(document.getElementById('resultsSection').querySelector('.confidenceVal').innerHTML).toEqual("100%");
         expect(document.getElementById('resultsSection').querySelector('.agreementVal').innerHTML).toEqual("AGREEMENT");
         expect(document.getElementById('resultsSection').querySelector('.subjectivityVal').innerHTML).toEqual("OBJECTIVE");

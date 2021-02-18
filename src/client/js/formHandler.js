@@ -58,15 +58,13 @@ function createResultsSection(jsonString, resultsSection){
     for(let i = 0; i < length; i++){
         let result = document.createElement('div');
         result.className = 'result';
-        let textSection = createTextSection(jsonString.json[i]);
-        result.appendChild(textSection);
-        let paramsSection = createParamsSection(jsonString.json[i]);
-        result.appendChild(paramsSection);
+        createTextSection(jsonString.json[i], result);
+        createParamsSection(jsonString.json[i], result);
         resultsSection.appendChild(result);
     }
 }
 
-function createTextSection(jsonObject){
+function createTextSection(jsonObject, resultContainer){
     let date = jsonObject.date;
     let text = jsonObject.text;
     const textElement = document.createElement('div');
@@ -81,11 +79,11 @@ function createTextSection(jsonObject){
     tdd.innerHTML = text;
     tdl.appendChild(tdd);
     textElement.appendChild(tdl);
-
-    return textElement;
+    
+    resultContainer.appendChild(textElement);
 }
 
-function createParamsSection(jsonObject){
+function createParamsSection(jsonObject, resultContainer){
     let language = jsonObject.language;
     let confidence = jsonObject.confidence;
     let agreement = jsonObject.agreement;
@@ -101,7 +99,8 @@ function createParamsSection(jsonObject){
     paramsElement.appendChild(createDl('agreement', 'Agreement:', 'agreementVal', agreement));
     paramsElement.appendChild(createDl('subjectivity', 'Subjectivity:', 'subjectivityVal', subjectivity));
     paramsElement.appendChild(createDl('irony', 'Irony:', 'IronyVal', irony));
-    return paramsElement;
+    
+    resultContainer.appendChild(paramsElement);
 
 }
 
