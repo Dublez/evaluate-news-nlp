@@ -5,17 +5,19 @@ dotenv.config();
 const fetch = require('node-fetch');
 /* Global Variables */
 //Base URL for MeaningCloud API 
-const baseURL = 'http://api.meaningcloud.com/sentiment-2.1?lang=en';
+const baseURL = 'https://ws.detectlanguage.com/0.2/detect';
 
 // Personal API Key for OpenWeatherMap API
-const key = '&key='+process.env.API_KEY;
+let headers = {
+    Authorization: 'Bearer '+process.env.DETECTLANGUAGE_KEY,
+}
+
 
 /* Function to POST data */
-const postServerData = async (url='') => {
+const postDetectLanguageServerData = async (url='') => {
     const res = await fetch(url, {
         method: 'POST',
-        headers: {},
-        maxRedirects: 20
+        headers: headers
     });
     try {
         const analysisResult = await res.json();
@@ -25,9 +27,9 @@ const postServerData = async (url='') => {
     }
 };
 
-const fetchAPIData = async function(textForAnalysis){
-    let result = postServerData(baseURL+key+"&txt="+textForAnalysis);
+const fetchDetectLanguageAPIData = async function(textForAnalysis){
+    let result = postDetectLanguageServerData(baseURL+"?q="+textForAnalysis);
     return result;
 }
 
-module.exports = fetchAPIData;
+module.exports = fetchDetectLanguageAPIData;

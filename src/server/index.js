@@ -1,7 +1,9 @@
 var path = require('path')
 const express = require('express')
 const bodyParser = require('body-parser')
-const apiResponse = require('./api.js')
+const meaningcloudAPIResponse = require('./meaningcloudAPI.js')
+const detectLanguageAPIResponse = require('./detectLanguageAPI.js')
+const getLanguageName = require('./getLangName.js')
 
 
 // Start up an instance of app
@@ -47,22 +49,29 @@ class Resp {
 
 let data = [];
 
-app.post('/test', function (req, res) {
+app.post('/test', async function (req, res) {
     // 
     console.log(req.body);
-    apiResponse(req.body.input)
-        .then(function (u) {
-            console.log(u); 
-            const obj = new Resp(
-                moment().format('Do MMMM YYYY on h:mm:ss a'),
-                req.body.input,
-                "English",
-                u.confidence,
-                u.agreement,
-                u.subjectivity,
-                u.irony 
-                );
-            data.unshift(obj);
-            return data;})
-        .then(u => res.send({"json": u}))  
+    const str = encodeURI(req.body.input);
+    const u0 = await detectLanguageAPIResponse(str)
+    const lang = u0.data.detections[0].language;
+    const langName = getLanguageName(lang);
+    
+    console.log(langName);
+    console.log(lang);
+    const u = await meaningcloudAPIResponse(lang, str);
+    // 
+    console.log(u); 
+    const obj = new Resp(
+        moment().format('Do MMMM YYYY on h:mm:ss a'),
+        req.body.input,
+        langName,
+        // lang,
+        u.confidence,
+        u.agreement,
+        u.subjectivity,
+        u.irony 
+        );
+    data.unshift(obj);
+    res.send({"json": data});  
 })
