@@ -166,15 +166,14 @@ describe("Testing the submit functionality", () => {
                     "irony":"NONIRONIC"}
                 ]
             },
-            document.querySelector('#resultsSection .result')
+            document.querySelector('.result')
             )
         });
         createTextSection2();
         expect(document.querySelector('.text')).toBeDefined();
         expect(document.querySelector('.text dl dd')).toBeDefined();
         // 
-        console.log(document.querySelector('.text dl dd'));
-        expect(document.getElementById('resultsSection').querySelector('.text dl dd').innerHTML).toEqual("Hello");
+        expect(document.querySelector('.result').querySelector('.text dl dd').innerHTML).toEqual("Hello");
     })
 
     test('Testing the createParamsSection() function', () => {
@@ -203,12 +202,12 @@ describe("Testing the submit functionality", () => {
                     "irony":"NONIRONIC"}
                 ]
             },
-            document.querySelector('#resultsSection .result')
+            document.querySelector('.result')
             )
         });
         createParamsSection2();
         expect(document.getElementById('resultsSection').querySelector('.params')).toBeDefined();
-        expect(document.querySelector('.resultsSection').querySelector('.languageVal').innerHTML).toEqual("English");
+        expect(document.getElementById('resultsSection').querySelector('.languageVal').innerHTML).toEqual("English");
         expect(document.getElementById('resultsSection').querySelector('.confidenceVal').innerHTML).toEqual("100%");
         expect(document.getElementById('resultsSection').querySelector('.agreementVal').innerHTML).toEqual("AGREEMENT");
         expect(document.getElementById('resultsSection').querySelector('.subjectivityVal').innerHTML).toEqual("OBJECTIVE");
