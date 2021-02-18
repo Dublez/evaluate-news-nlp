@@ -1,4 +1,4 @@
-import { handleSubmit, getFormText, postServerData, renderResult } from '../src/client/js/formHandler';
+import { handleSubmit, getFormText, postServerData, renderResult, createResultsSection, createTextSection, createParamsSection } from '../src/client/js/formHandler';
 import 'regenerator-runtime/runtime';
 // const fetch = require("node-fetch");
 
@@ -15,15 +15,13 @@ describe("Testing the submit functionality", () => {
         // The expect() function, in combination with a Jest matcher, is used to check if the function produces the expected output.
         // The general syntax is expect(myFunction(arg1, arg2, ...)).toEqual(expectedValue); , where 'toEqual() is a matcher
         document.body.innerHTML =
-        '<section>'+
-            '<form class="" onsubmit="return Client.handleSubmit(event)">'+
-                '<input id="name" type="text" name="input" value="Hello" onblur="onBlur()" placeholder="Name">'+
-                '<input type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
+        '<section id="submitSection">'+
+            '<form class="submitForm" onsubmit="return Client.handleSubmit(event)">'+
+                '<textarea id="submitText" placeholder="please insert text here" name="input" onblur="onBlur()"></textarea>'+
+                '<input id="submitButton" type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
             '</form>'+
         '</section>'+
-        '<section>'+
-            '<strong>Form Results:</strong>'+
-            '<div id="results">"Confidence: 100"</div>'+
+        '<section id="resultsSection">'+
         '</section>';
         
         expect(handleSubmit).toBeDefined();
@@ -49,18 +47,20 @@ describe("Testing the submit functionality", () => {
         // expect (mockGet).toHaveBeenCalled();
     });
 
-    test("Testing the getFormText function", () => {
+    test("Testing the getFormText() function", () => {
         document.body.innerHTML =
-        '<section>'+
-            '<form class="" onsubmit="return Client.handleSubmit(event)">'+
-                '<input id="name" type="text" name="input" value="" onblur="onBlur()" placeholder="Name">'+
-                '<input type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
+        '<section id="submitSection">'+
+            '<form class="submitForm" onsubmit="return Client.handleSubmit(event)">'+
+                '<textarea id="submitText" placeholder="please insert text here" name="input" onblur="onBlur()"></textarea>'+
+                '<input id="submitButton" type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
             '</form>'+
-        '</section>'
+        '</section>'+
+        '<section id="resultsSection">'+
+        '</section>';
 
         expect(getFormText).toBeDefined();
         const text = "Hello"; 
-        document.getElementById('name').value = text;
+        document.getElementById('submitText').value = text;
         expect(getFormText()).toEqual(text);
     });
 
@@ -73,28 +73,142 @@ describe("Testing the submit functionality", () => {
             .then((res)=>expect(res).resolves.toBeTruthy());
     });
 
-    test("Testing the renderResunts function", () => {
+    test("Testing the renderResunts() function", () => {
         document.body.innerHTML =
-        '<section>'+
-            '<form class="" onsubmit="return Client.handleSubmit(event)">'+
-                '<input id="name" type="text" name="input" value="Hello" onblur="onBlur()" placeholder="Name">'+
-                '<input type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
+        '<section id="submitSection">'+
+            '<form class="submitForm" onsubmit="return Client.handleSubmit(event)">'+
+                '<textarea id="submitText" placeholder="please insert text here" name="input" onblur="onBlur()"></textarea>'+
+                '<input id="submitButton" type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
             '</form>'+
         '</section>'+
-        '<section>'+
-            '<strong>Form Results:</strong>'+
-            '<div id="results"></div>'+
+        '<section id="resultsSection">'+
         '</section>';
         
         let renderResult2 = jest.fn(() => {
             renderResult(
             {
-                json:{
-                    confidence: 100
-                }
+                "json":
+                [
+                    {"date":"18th February 2021 on 4:24:48 pm",
+                    "text":"Hello",
+                    "language":"English",
+                    "confidence":"100",
+                    "agreement":"AGREEMENT",
+                    "subjectivity":"OBJECTIVE",
+                    "irony":"NONIRONIC"}
+                ]
             })
         });
         renderResult2();
-        expect(document.getElementById('results').innerHTML).toEqual("Confidence: 100");
+        expect(document.getElementById('resultsSection').querySelector('.text dl dd').innerHTML).toEqual("Hello");
+        expect(document.getElementById('resultsSection').querySelector('.languageVal').innerHTML).toEqual("English");
+        expect(document.getElementById('resultsSection').querySelector('.confidenceVal').innerHTML).toEqual("100%");
+        expect(document.getElementById('resultsSection').querySelector('.agreementVal').innerHTML).toEqual("AGREEMENT");
+        expect(document.getElementById('resultsSection').querySelector('.subjectivityVal').innerHTML).toEqual("OBJECTIVE");
+        expect(document.getElementById('resultsSection').querySelector('.IronyVal').innerHTML).toEqual("NONIRONIC");
     });
+
+    test('Testing the createResultsSection() function', () => {
+        document.body.innerHTML =
+        '<section id="submitSection">'+
+            '<form class="submitForm" onsubmit="return Client.handleSubmit(event)">'+
+                '<textarea id="submitText" placeholder="please insert text here" name="input" onblur="onBlur()"></textarea>'+
+                '<input id="submitButton" type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
+            '</form>'+
+        '</section>'+
+        '<section id="resultsSection">'+
+        '</section>';
+
+        let createResultsSection2 = jest.fn(() => {
+            createResultsSection(
+            {
+                "json":
+                [
+                    {"date":"18th February 2021 on 4:24:48 pm",
+                    "text":"Hello",
+                    "language":"English",
+                    "confidence":"100",
+                    "agreement":"AGREEMENT",
+                    "subjectivity":"OBJECTIVE",
+                    "irony":"NONIRONIC"}
+                ]
+            },
+                document.querySelector('#resultsSection'));
+        });
+        createResultsSection2();
+        expect(document.getElementById('resultsSection').querySelector('.result')).toBeDefined();
+        expect(document.getElementById('resultsSection').querySelector('.text')).toBeDefined();
+        expect(document.getElementById('resultsSection').querySelector('.params')).toBeDefined();
+    })
+
+    test('Testing the createTextSection() function', () => {
+        document.body.innerHTML =
+        '<section id="submitSection">'+
+            '<form class="submitForm" onsubmit="return Client.handleSubmit(event)">'+
+                '<textarea id="submitText" placeholder="please insert text here" name="input" onblur="onBlur()"></textarea>'+
+                '<input id="submitButton" type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
+            '</form>'+
+        '</section>'+
+        '<section id="resultsSection">'+
+        '</section>';
+
+        let textSection = createTextSection(
+        {
+            "json":
+            [
+                {"date":"18th February 2021 on 4:24:48 pm",
+                "text":"Hello",
+                "language":"English",
+                "confidence":"100",
+                "agreement":"AGREEMENT",
+                "subjectivity":"OBJECTIVE",
+                "irony":"NONIRONIC"}
+            ]
+        });
+        const resultElement = document.createElement('div');
+        resultElement.classList.add('result');
+        document.querySelector('#resultsSection').appendChild(resultElement);
+        resultElement.appendChild(textSection);
+        console.log(resultElement);
+        // expect(textSection.querySelector('.text')).toBeDefined();
+        // expect(textSection.querySelector('.text dl dd')).toBeDefined();
+        // expect(textSection.querySelector('.text dl dd').innerHTML).toEqual("Hello");
+    })
+
+    test('Testing the createParamsSection() function', () => {
+        document.body.innerHTML =
+        '<section id="submitSection">'+
+            '<form class="submitForm" onsubmit="return Client.handleSubmit(event)">'+
+                '<textarea id="submitText" placeholder="please insert text here" name="input" onblur="onBlur()"></textarea>'+
+                '<input id="submitButton" type="submit" name="" value="submit" onclick="return Client.handleSubmit(event)" onsubmit="return handleSubmit(event)">'+
+            '</form>'+
+        '</section>'+
+        '<section id="resultsSection">'+
+        '</section>';
+
+        let createParamsSection2 = jest.fn(() => {
+            createParamsSection(
+            {
+                "json":
+                [
+                    {"date":"18th February 2021 on 4:24:48 pm",
+                    "text":"Hello",
+                    "language":"English",
+                    "confidence":"100",
+                    "agreement":"AGREEMENT",
+                    "subjectivity":"OBJECTIVE",
+                    "irony":"NONIRONIC"}
+                ]
+            });
+        });
+        let paramsSection = document.createElement(createParamsSection2());
+        document.getElementById('resultsSection').appendChild(paramsSection);
+        expect(document.getElementById('resultsSection').querySelector('.result')).toBeDefined();
+        expect(document.getElementById('resultsSection').querySelector('.params')).toBeDefined();
+        expect(document.getElementById('resultsSection').querySelector('.languageVal').innerHTML).toEqual("English");
+        expect(document.getElementById('resultsSection').querySelector('.confidenceVal').innerHTML).toEqual("100%");
+        expect(document.getElementById('resultsSection').querySelector('.agreementVal').innerHTML).toEqual("AGREEMENT");
+        expect(document.getElementById('resultsSection').querySelector('.subjectivityVal').innerHTML).toEqual("OBJECTIVE");
+        expect(document.getElementById('resultsSection').querySelector('.IronyVal').innerHTML).toEqual("NONIRONIC");
+    })
 })
