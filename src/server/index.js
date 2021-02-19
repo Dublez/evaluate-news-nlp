@@ -27,7 +27,7 @@ moment = require('moment');
 console.log(__dirname)
 
 app.get('/', function (req, res) {
-    res.sendFile('index.html', { root: __dirname });
+    res.sendFile('../../dist/index.html');
     // res.sendFile(path.resolve('src/client/views/index.html'))
 })
 
