@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const StyleLoader = require('style-loader');
 const CSSLoader = require('css-loader');
 const SassLoader = require('sass-loader'); 
+const {GenerateSW} = require('workbox-webpack-plugin');
 const FileLoader = require('file-loader');
 
 module.exports = {
@@ -50,5 +51,6 @@ module.exports = {
             cleanStaleWebpackAssets: true,
             protectWebpackAssets: false
         }),
+        new GenerateSW(),
     ]
 }
